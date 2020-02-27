@@ -7,31 +7,49 @@
 //
 
 import UIKit
+import FluentSQLite
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
+    
+    public static var db = DatabaseManager()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
         return true
     }
 
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-
 }
 
+struct DatabaseManager {
+  let db: SQLiteDatabase
+  let group: MultiThreadedEventLoopGroup
+  let test: DatabaseIdentifier<SQLiteDatabase>
+  var config: DatabasesConfig
+  let container: BasicContainer
+  let databases: Databases
+  public let pool: DatabaseConnectionPool<ConfiguredDatabase<SQLiteDatabase>>
+
+  init() {
+    guard let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+        fatalError("Could not file 'documentDirectory'")
+    }
+    
+    self.db = try! SQLiteDatabase(storage: .file(path: "\(filePath)/default.sqlite"))
+    self.group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+    self.test = "test"
+    self.config = DatabasesConfig()
+    config.add(database: db, as: test)
+    self.container = BasicContainer(config: .init(), environment: .testing, services: .init(), on: group)
+    self.databases = try! config.resolve(on: container)
+    self.pool = try! databases.requireDatabase(for: test).newConnectionPool(config: .init(maxConnections: 20), on: self.group)
+  }
+}

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,8 @@
 		007CB4212408221A00287254 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 007CB41F2408221A00287254 /* Main.storyboard */; };
 		007CB4232408221D00287254 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 007CB4222408221D00287254 /* Assets.xcassets */; };
 		007CB4262408221D00287254 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 007CB4242408221D00287254 /* LaunchScreen.storyboard */; };
+		007CB42F2408231000287254 /* SwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 007CB42E2408231000287254 /* SwiftUIKit */; };
+		007CB4322408235000287254 /* FluentSQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 007CB4312408235000287254 /* FluentSQLite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				007CB4322408235000287254 /* FluentSQLite in Frameworks */,
+				007CB42F2408231000287254 /* SwiftUIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +87,10 @@
 			dependencies = (
 			);
 			name = FluentPOC;
+			packageProductDependencies = (
+				007CB42E2408231000287254 /* SwiftUIKit */,
+				007CB4312408235000287254 /* FluentSQLite */,
+			);
 			productName = FluentPOC;
 			productReference = 007CB4162408221A00287254 /* FluentPOC.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +119,10 @@
 				Base,
 			);
 			mainGroup = 007CB40D2408221A00287254;
+			packageReferences = (
+				007CB42D2408231000287254 /* XCRemoteSwiftPackageReference "SwiftUIKit" */,
+				007CB4302408235000287254 /* XCRemoteSwiftPackageReference "fluent-sqlite-driver" */,
+			);
 			productRefGroup = 007CB4172408221A00287254 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -338,6 +350,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		007CB42D2408231000287254 /* XCRemoteSwiftPackageReference "SwiftUIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/0xLeif/SwiftUIKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		007CB4302408235000287254 /* XCRemoteSwiftPackageReference "fluent-sqlite-driver" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vapor/fluent-sqlite-driver.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		007CB42E2408231000287254 /* SwiftUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 007CB42D2408231000287254 /* XCRemoteSwiftPackageReference "SwiftUIKit" */;
+			productName = SwiftUIKit;
+		};
+		007CB4312408235000287254 /* FluentSQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 007CB4302408235000287254 /* XCRemoteSwiftPackageReference "fluent-sqlite-driver" */;
+			productName = FluentSQLite;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 007CB40E2408221A00287254 /* Project object */;
 }
