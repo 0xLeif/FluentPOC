@@ -7,11 +7,11 @@
 //
 
 import UIKit
-import FluentSQLite
+import FLite
 import SwiftUIKit
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -20,27 +20,21 @@ class ViewController: UIViewController {
                 [
                     Button("Prepare") {
                         print("Preparing...")
-                        AppDelegate.db.pool.requestConnection().whenSuccess { (connection) in
-                            Todo.prepare(on: connection).whenComplete {
-                                print("Prepared!")
-                            }
+                        FLite.prepare(model: Todo.self) {
+                            print("Prepared!")
                         }
                     },
                     Button("Create") {
                         print("Creating...")
-                        AppDelegate.db.pool.requestConnection().whenSuccess { (connection) in
-                            Todo(title: "Hello World! \(Int.random(in: 0 ... 100))").save(on: connection).whenComplete {
-                                print("Created!")
-                            }
+                        FLite.create(model: Todo(title: "Hello World! \(Int.random(in: 0 ... 100))")) {
+                            print("Created!")
                         }
                     },
                     Button("Fetch") {
                         print("Fetching...")
-                        AppDelegate.db.pool.requestConnection().whenSuccess { (connection) in
-                            Todo.query(on: connection).all().whenSuccess { (todos) in
-                                print("Fetched!")
-                                print(todos.map { $0.title })
-                            }
+                        FLite.fetch(model: Todo.self) { (values) in
+                            print("Fetched!")
+                            print(values.map { $0.title })
                         }
                     }
                 ]
@@ -49,22 +43,3 @@ class ViewController: UIViewController {
         
     }
 }
-
-
-/// A single entry of a Todo list.
-final class Todo: SQLiteModel {
-    /// The unique identifier for this `Todo`.
-    var id: Int?
-
-    /// A title describing what this `Todo` entails.
-    var title: String
-
-    /// Creates a new `Todo`.
-    init(id: Int? = nil, title: String) {
-        self.id = id
-        self.title = title
-    }
-}
-
-/// Allows `Todo` to be used as a dynamic migration.
-extension Todo: Migration { }

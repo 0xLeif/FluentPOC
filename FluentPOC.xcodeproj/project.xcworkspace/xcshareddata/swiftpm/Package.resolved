@@ -29,6 +29,15 @@
         }
       },
       {
+        "package": "FLite",
+        "repositoryURL": "https://github.com/0xLeif/FLite",
+        "state": {
+          "branch": "master",
+          "revision": "ec374c91bf0f0a55df8a1afa6c121687aaf461aa",
+          "version": null
+        }
+      },
+      {
         "package": "Fluent",
         "repositoryURL": "https://github.com/vapor/fluent.git",
         "state": {
